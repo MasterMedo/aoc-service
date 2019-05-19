@@ -22,7 +22,7 @@ namespace Main
             {
                 c.AddSecurityDefinition("basic", new ApiKeyScheme
                 {
-                    Description = "Basic Authorization using username and password",
+                    Description = "Basic AuthorizationBean using username and password",
                     Type = "basic"
                 });
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
