@@ -6,6 +6,7 @@ namespace Main.Core.AdventOfCode
 {
     public class AdventOfCodeResponse
     {
-        public string Result { get; set; }
+        public string Part1 { get; set; }
+        public string Part2 { get; set; }
     }
 }

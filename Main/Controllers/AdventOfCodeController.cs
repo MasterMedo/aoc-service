@@ -17,9 +17,22 @@ namespace Main.Controllers
         {
             var className = HttpContext.Items["className"].ToString();
             var assemblyName = HttpContext.Items["assemblyName"].ToString();
-
             var service = Activator.CreateInstance(Type.GetType(assemblyName + '.' + className + ", " + assemblyName));
-            return ((IAdventOfCodeService) service).GetResult(request);
+
+            AdventOfCodeResponse result = null;
+
+            try
+            {
+                result = ((IAdventOfCodeService) service).GetResult(request);
+            }
+            catch
+            {
+                // ignored
+            }
+
+            if (result == null)
+                HttpContext.Response.StatusCode = 400;
+            return result;
         }
     }
 }
