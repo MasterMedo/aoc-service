@@ -1,13 +1,10 @@
 ﻿[
   {
-    "help": "eh" ,
     "username": "laura",
-    "password": "laura",
-    "app": "laura"
+    "password": "laura"
   },
   {
     "username": "medo",
-    "password": "medo",
-    "app": "medo"
+    "password": "medo"
   }
 ]

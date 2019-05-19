@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ namespace Main.Authentication
                 var username = decoded.Substring(0, separator);
                 var password = decoded.Substring(separator+1);
 
-                var json = Encoding.Default.GetString(Properties.Resources.users).Substring(1); // neki ludi character se pojavljuje na pocetku
+                var json = Encoding.Default.GetString(Properties.Resources.users).Substring(1);
                 var users = JsonConvert.DeserializeObject<List<User>>(json);
 
                 var user = users.FirstOrDefault(x => x.username == username && x.password == password);

@@ -7,7 +7,7 @@ namespace AdventOfCode
     {
         public AdventOfCodeResponse GetResult(AdventOfCodeRequest request)
         {
-            throw new NotImplementedException();
+            return new AdventOfCodeResponse {Result = request.Input + request.Day + request.Year};
         }
     }
 }

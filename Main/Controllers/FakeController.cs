@@ -14,8 +14,8 @@ namespace Main.Controllers
         [HttpPost]
         public FakeResponse FakeBoy(FakeRequest request)
         {
-            var className = HttpContext.Items["ClassName"].ToString();
-            var assemblyName = HttpContext.Items["AssemblyName"].ToString();
+            var className = HttpContext.Items["className"].ToString();
+            var assemblyName = HttpContext.Items["assemblyName"].ToString();
 
             var service = Activator.CreateInstance(Type.GetType(assemblyName + '.' + className + ", " + assemblyName));
             return ((IFakeService) service).FakeMethod(request);
