@@ -1,0 +1,18 @@
+﻿[
+  {
+    "username": "laura",
+    "app": "laura",
+    "controller": "Fake",
+    "permittedMethods": [],
+    "assemblyName": "FakeProject",
+    "className": "FakeService" 
+  },
+  {
+    "username": "medo",
+    "app": "medo",
+    "controller": "Fake",
+    "permittedMethods": [],
+    "assemblyName": "FakeProject",
+    "className": "FakeService" 
+  }
+]
