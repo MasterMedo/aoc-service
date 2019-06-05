@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Main.Core.AdventOfCode
+namespace aoc.core.solutions
 {
-    public class AdventOfCodeRequest
+    public class SolutionsRequest
     {
         public int Year { get; set; }
         public int Day { get; set; }

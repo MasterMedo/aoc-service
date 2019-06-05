@@ -3,15 +3,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Main.Core.AdventOfCode;
+using aoc.core.solutions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AdventOfCode
+namespace aoc.solutions
 {
-    public class AdventOfCodeService : IAdventOfCodeService
+    public class SolutionsService : ISolutionsService
     {
-        public AdventOfCodeResponse GetResult(AdventOfCodeRequest request)
+        public SolutionsResponse GetSolution(SolutionsRequest request)
         {
             if (request.Day < 1 || request.Day > 25 || request.Year < 2015 || request.Year > 2018)
                 throw new DayOrYearNotValidException();
@@ -33,7 +33,7 @@ namespace AdventOfCode
                 throw new ErrorWhileExecutingScriptException();
 
             var parts = result.Split("\r\n");
-            var response = new AdventOfCodeResponse();
+            var response = new SolutionsResponse();
 
             if (parts.Length < 2)
                 return response;

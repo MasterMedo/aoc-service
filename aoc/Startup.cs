@@ -3,22 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Main.Authorization;
-using Main.Core.AdventOfCode;
+using aoc.core.solutions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Main
+namespace aoc
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
             // add custom services
-            services.AddTransient<IAdventOfCodeService, AdventOfCode.AdventOfCodeService>();
+            services.AddTransient<ISolutionsService, aoc.solutions.SolutionsService>();
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);

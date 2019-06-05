@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Main.Core.AdventOfCode
+namespace aoc.core.solutions
 {
-    public class AdventOfCodeException : Exception
+    public class SolutionsException : Exception
     {
         public int Code { get; set; }
         public string Title { get; set; }
-        public AdventOfCodeException(int code, string title, string message) : base(message)
+        public SolutionsException(int code, string title, string message) : base(message)
         {
             Title = title;
             Code = code;
         }
 
-        public AdventOfCodeException(int code, string title) : this(code, title, null)
+        public SolutionsException(int code, string title) : this(code, title, null)
         {
         }
     }
-    public class DayNotImplementedException : AdventOfCodeException
+    public class DayNotImplementedException : SolutionsException
     {
         public DayNotImplementedException(string message) : base(501, "Day is not implemented yet :/", message)
         {
@@ -27,7 +27,7 @@ namespace Main.Core.AdventOfCode
         {
         }
     }
-    public class DayOrYearNotValidException : AdventOfCodeException
+    public class DayOrYearNotValidException : SolutionsException
     {
         public DayOrYearNotValidException(string message) : base(406, "Day or year not valid!", message)
         {
@@ -36,7 +36,7 @@ namespace Main.Core.AdventOfCode
         {
         }
     }
-    public class ErrorWhileExecutingScriptException : AdventOfCodeException
+    public class ErrorWhileExecutingScriptException : SolutionsException
     {
         public ErrorWhileExecutingScriptException(string message) : base(406,
             "Error while executing, probably bad input, though it could be a bug in the code!", message)
@@ -46,7 +46,7 @@ namespace Main.Core.AdventOfCode
         {
         }
     }
-    public class InterpreterNotFoundException : AdventOfCodeException
+    public class InterpreterNotFoundException : SolutionsException
     {
         public InterpreterNotFoundException(string message) : base(404, "Interpreter not found!", message)
         {

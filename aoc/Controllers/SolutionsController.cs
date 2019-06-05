@@ -1,33 +1,33 @@
 ﻿using System;
-using Main.Authorization;
-using Main.Core.AdventOfCode;
+using aoc.Authorization;
+using aoc.core.solutions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Main.Controllers
+namespace aoc.Controllers
 {
     [ApiController]
     [Authorization]
     [Route("AdventOfCode")]
     [Produces("application/json")]
-    public class AdventOfCodeController : ControllerBase
+    public class SolutionsController : ControllerBase
     {
-        private readonly IAdventOfCodeService _service;
-        public AdventOfCodeController(IAdventOfCodeService service)
+        private readonly ISolutionsService _service;
+        public SolutionsController(ISolutionsService service)
         {
             _service = service;
         }
         [HttpPost]
-        [SwaggerResponse(200, "Request successful!", typeof(AdventOfCodeResponse))]
+        [SwaggerResponse(200, "Request successful!", typeof(SolutionsResponse))]
         [SwaggerResponse(406, "The day or year is not valid", typeof(ProblemDetails))]
         [SwaggerResponse(501, "The day is not yet implemented :/", typeof(ProblemDetails))]
-        public object GetResult(AdventOfCodeRequest request)
+        public object GetResult(SolutionsRequest request)
         {
             try
             {
-                return _service.GetResult(request);
+                return _service.GetSolution(request);
             }
-            catch (AdventOfCodeException e)
+            catch (SolutionsException e)
             {
                 HttpContext.Response.StatusCode = e.Code;
                 return new ProblemDetails { Status = e.Code, Title = e.Title, Detail = e.Message };
