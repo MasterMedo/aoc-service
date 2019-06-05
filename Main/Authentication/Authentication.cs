@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,28 +20,36 @@ namespace Main.Authentication
 
         public async Task Invoke(HttpContext context)
         {
-            string auth = context.Request.Headers["Authorization"];
-            if (auth != null && auth.StartsWith("Basic"))
+            try
             {
-                var encoding = Encoding.GetEncoding("iso-8859-1");
-                var encoded = auth.Substring(6);
-                var decoded = encoding.GetString(Convert.FromBase64String(encoded));
-
-                var separator = decoded.IndexOf(":", StringComparison.Ordinal);
-                var username = decoded.Substring(0, separator);
-                var password = decoded.Substring(separator+1);
-
-                var json = Encoding.Default.GetString(Properties.Resources.users).Substring(1);
-                var users = JsonConvert.DeserializeObject<List<User>>(json);
-
-                var user = users.FirstOrDefault(x => x.username == username && x.password == password);
-                if (user != null)
+                string auth = context.Request.Headers["Authorization"];
+                if (auth != null && auth.StartsWith("Basic"))
                 {
-                    context.Items["username"] = username;
-                    await _next.Invoke(context);
-                    return;
+                    var encoding = Encoding.GetEncoding("iso-8859-1");
+                    var encoded = auth.Substring(6);
+                    var decoded = encoding.GetString(Convert.FromBase64String(encoded));
+
+                    var separator = decoded.IndexOf(":", StringComparison.Ordinal);
+                    var username = decoded.Substring(0, separator);
+                    var password = decoded.Substring(separator + 1);
+
+                    var json = File.ReadAllText("users.json");
+                    var users = JsonConvert.DeserializeObject<List<User>>(json);
+
+                    var user = users.FirstOrDefault(x => x.Username == username && x.Password == password);
+                    if (user != null)
+                    {
+                        context.Items["username"] = username;
+                        await _next.Invoke(context);
+                        return;
+                    }
                 }
             }
+            catch
+            {
+                // logging
+            }
+
             context.Response.StatusCode = 401;
         }
     }

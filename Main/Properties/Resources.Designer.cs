@@ -59,25 +59,5 @@ namespace Main.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] authorization {
-            get {
-                object obj = ResourceManager.GetObject("authorization", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] users {
-            get {
-                object obj = ResourceManager.GetObject("users", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

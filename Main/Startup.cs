@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Main.Authorization;
+using Main.Core.AdventOfCode;
+using Main.Core.FakeProject;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +18,17 @@ namespace Main
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            // add custom services
+            services.AddTransient<IAdventOfCodeService, AdventOfCode.AdventOfCodeService>();
+            services.AddTransient<IFakeService, FakeProject.FakeService>();
+
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("basic", new ApiKeyScheme
                 {
-                    Description = "Basic AuthorizationBean using username and password",
+                    Description = "Basic AuthorizationBean using Username and Password",
                     Type = "basic"
                 });
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>

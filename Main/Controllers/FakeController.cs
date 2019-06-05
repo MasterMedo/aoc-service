@@ -7,18 +7,25 @@ namespace Main.Controllers
 {
     [ApiController]
     [Authorization]
-    [Route("v1/fake")]
+    [Route("fake")]
     [Produces("application/json")]
     public class FakeController : ControllerBase
     {
         [HttpPost]
         public FakeResponse FakeBoy(FakeRequest request)
         {
-            var className = HttpContext.Items["className"].ToString();
-            var assemblyName = HttpContext.Items["assemblyName"].ToString();
+            try
+            {
+                var service = HttpContext.Items["service"];
+                return ((IFakeService) service).FakeMethod(request);
+            }
+            catch
+            {
+                // logging
+            }
 
-            var service = Activator.CreateInstance(Type.GetType(assemblyName + '.' + className + ", " + assemblyName));
-            return ((IFakeService) service).FakeMethod(request);
+            HttpContext.Response.StatusCode = 400;
+            return null;
         }
     }
 }

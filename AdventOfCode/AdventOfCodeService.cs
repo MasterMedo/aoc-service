@@ -13,18 +13,24 @@ namespace AdventOfCode
     {
         public AdventOfCodeResponse GetResult(AdventOfCodeRequest request)
         {
-            var json = Encoding.Default.GetString(Properties.Resources.config).Substring(1);
-            var c = JsonConvert.DeserializeObject<Config>(json);
+            if (request.Day < 1 || request.Day > 25 || request.Year < 2015 || request.Year > 2018)
+                throw new DayOrYearNotValidException();
 
-            var script = c.Script + "\\" + request.Year + "\\day\\" + request.Day + ".py";
-            File.WriteAllText(c.Input + "\\" + request.Day + ".txt", request.Input);
+            var json = File.ReadAllText("aoc-config.json");
+            var config = JsonConvert.DeserializeObject<Config>(json);
 
-            var (result, err) = RunScript(c.Python2, script);
+            var script = config.Script + "\\" + request.Year + "\\day\\" + request.Day + ".py";
+            File.WriteAllText(config.Input + "\\" + request.Day + ".txt", request.Input);
+
+            if(!File.Exists(script))
+                throw new DayNotImplementedException();
+            if(!File.Exists(config.Python2))
+                throw new InterpreterNotFoundException();
+
+            var (result, err) = RunScript(config.Python2, script);
+
             if (err != "")
-                (result, err) = RunScript(c.Python, script);
-
-            if (err != "")
-                return null;
+                throw new ErrorWhileExecutingScriptException();
 
             var parts = result.Split("\r\n");
             var response = new AdventOfCodeResponse();

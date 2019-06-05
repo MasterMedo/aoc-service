@@ -59,15 +59,5 @@ namespace AdventOfCode.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] config {
-            get {
-                object obj = ResourceManager.GetObject("config", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

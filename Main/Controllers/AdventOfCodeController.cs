@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Main.Authorization;
 using Main.Core.AdventOfCode;
 using Microsoft.AspNetCore.Mvc;
@@ -9,30 +6,39 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Main.Controllers
 {
-    [ApiController]    [Authorization]    [Route("v1/AdventOfCode")]    [Produces("application/json")]    public class AdventOfCodeController : ControllerBase
+    [ApiController]
+    [Authorization]
+    [Route("AdventOfCode")]
+    [Produces("application/json")]
+    public class AdventOfCodeController : ControllerBase
     {
-        [HttpPost]
-        [SwaggerResponse(200, "ok", typeof(AdventOfCodeResponse))]
-        public AdventOfCodeResponse GetResult(AdventOfCodeRequest request)
+        private readonly IAdventOfCodeService _service;
+        public AdventOfCodeController(IAdventOfCodeService service)
         {
-            var className = HttpContext.Items["className"].ToString();
-            var assemblyName = HttpContext.Items["assemblyName"].ToString();
-            var service = Activator.CreateInstance(Type.GetType(assemblyName + '.' + className + ", " + assemblyName));
-
-            AdventOfCodeResponse result = null;
-
+            _service = service;
+        }
+        [HttpPost]
+        [SwaggerResponse(200, "Request successful!", typeof(AdventOfCodeResponse))]
+        [SwaggerResponse(406, "The day or year is not valid", typeof(ProblemDetails))]
+        [SwaggerResponse(501, "The day is not yet implemented :/", typeof(ProblemDetails))]
+        public object GetResult(AdventOfCodeRequest request)
+        {
             try
             {
-                result = ((IAdventOfCodeService) service).GetResult(request);
+                return _service.GetResult(request);
             }
-            catch
+            catch (AdventOfCodeException e)
             {
-                // ignored
+                HttpContext.Response.StatusCode = e.Code;
+                return new ProblemDetails { Status = e.Code, Title = e.Title, Detail = e.Message };
             }
+            catch (Exception e)
+            {
+                // logging
 
-            if (result == null)
-                HttpContext.Response.StatusCode = 400;
-            return result;
+                HttpContext.Response.StatusCode = 500;
+                return new ProblemDetails { Status = 500, Title = "Internal server error.", Detail = e.Message };
+            }
         }
     }
 }
