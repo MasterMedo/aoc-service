@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Main.Core\Main.Core.csproj" />
+    <ProjectReference Include="..\aoc.core\aoc.core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

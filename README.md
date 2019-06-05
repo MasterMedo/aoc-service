@@ -1,3 +1,5 @@
 # advent of code service
 
-get the solution for any day of the challange
+services:
+1. solution WIP
+2. codes WIP

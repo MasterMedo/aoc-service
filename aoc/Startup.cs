@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Main.Authorization;
 using Main.Core.AdventOfCode;
-using Main.Core.FakeProject;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,6 @@ namespace Main
         {
             // add custom services
             services.AddTransient<IAdventOfCodeService, AdventOfCode.AdventOfCodeService>();
-            services.AddTransient<IFakeService, FakeProject.FakeService>();
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
