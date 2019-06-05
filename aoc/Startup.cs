@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using aoc.Cache;
 using aoc.core.solutions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -16,6 +18,9 @@ namespace aoc
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            // add memory cache
+            services.AddSingleton<IMemoryCache, ServiceMemoryCache>();
+
             // add custom services
             services.AddTransient<ISolutionsService, aoc.solutions.SolutionsService>();
 
