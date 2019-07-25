@@ -7,5 +7,6 @@ namespace aoc.core.solutions
     public interface ISolutionsService
     {
         SolutionsResponse GetSolution(SolutionsRequest request);
+        string RunScript(string interpreter, string script);
     }
 }

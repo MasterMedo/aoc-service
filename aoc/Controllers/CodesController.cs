@@ -1,7 +1,7 @@
 ﻿using System;
 using aoc.Authorization;
+using aoc.core.codes;
 using aoc.core.Exceptions;
-using aoc.core.solutions;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,24 +9,24 @@ namespace aoc.Controllers
 {
     [ApiController]
     [Authorization]
-    [Route("solutions")]
+    [Route("codes")]
     [Produces("application/json")]
-    public class SolutionsController : ControllerBase
+    public class CodesController : ControllerBase
     {
-        private readonly ISolutionsService _service;
-        public SolutionsController(ISolutionsService service)
+        private readonly ICodesService _service;
+        public CodesController(ICodesService service)
         {
             _service = service;
         }
         [HttpPost]
-        [SwaggerResponse(200, "ok.", typeof(SolutionsResponse))]
+        [SwaggerResponse(200, "ok.", typeof(CodesResponse))]
         [SwaggerResponse(400, "4xx -> bad request.", typeof(ProblemDetails))]
         [SwaggerResponse(500, "5xx -> server error.", typeof(ProblemDetails))]
-        public object GetResult(SolutionsRequest request)
+        public object GetResult(CodesRequest request)
         {
             try
             {
-                return _service.GetSolution(request);
+                return _service.GetCode(request);
             }
             catch (AdventOfCodeException e)
             {

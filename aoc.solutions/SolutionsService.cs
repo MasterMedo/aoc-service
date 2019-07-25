@@ -1,58 +1,75 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
+using aoc.core.Exceptions;
+using aoc.core.helper;
 using aoc.core.solutions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace aoc.solutions
 {
     public class SolutionsService : ISolutionsService
     {
+        private readonly IConfiguration _config;
+        private readonly IHelper _helper;
+
+        public SolutionsService(IConfiguration config, IHelper helper)
+        {
+            _config = config;
+            _helper = helper;
+        }
         public SolutionsResponse GetSolution(SolutionsRequest request)
         {
-            if (request.Day < 1 || request.Day > 25 || request.Year < 2015 || request.Year > 2018)
+            if (!_helper.IsDayYearValid(request.Day, request.Year))
                 throw new DayOrYearNotValidException();
 
-            var json = File.ReadAllText("aoc-config.json");
-            var config = JsonConvert.DeserializeObject<Config>(json);
-
-            var script = config.Script + "\\" + request.Year + "\\day\\" + request.Day + ".py";
-            File.WriteAllText(config.Input + "\\" + request.Day + ".txt", request.Input);
-
+            var script = _helper.GetScriptPath(request.Year, request.Day, "python");
             if(!File.Exists(script))
                 throw new DayNotImplementedException();
-            if(!File.Exists(config.Python2))
+
+            var python2 = _config["python2"];
+            var python3 = _config["python3"];
+            if(!File.Exists(python2) || !File.Exists(python3))
                 throw new InterpreterNotFoundException();
 
-            var (result, err) = RunScript(config.Python2, script);
+            File.WriteAllText(@"..\input\" + request.Day + ".txt", request.Input);
 
-            if (err != "")
-                throw new ErrorWhileExecutingScriptException();
+            var result = RunScript(python2, script);
 
             var parts = result.Split("\r\n");
-            var response = new SolutionsResponse();
+            if (parts.Length != 2)
+                throw new UnexpectedResultLengthException(result);
 
-            if (parts.Length < 2)
-                return response;
-
-            response.Part1 = parts[0];
-            response.Part2 = parts[1];
-            return response;
+            return new SolutionsResponse
+            {
+                Part1 = parts[0],
+                Part2 = parts[1]
+            };
         }
 
-        private static (string, string) RunScript(string python, string script)
+        public string RunScript(string interpreter, string script)
         {
-            var processInfo = new ProcessStartInfo
-                {FileName = python, Arguments = script, RedirectStandardOutput = true, RedirectStandardError = true};
-
-            using (var process = Process.Start(processInfo))
+            try
             {
-                var err = process.StandardError.ReadToEnd();
-                var result = process.StandardOutput.ReadToEnd();
-                return (result, err);
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = interpreter, Arguments = script, RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                using (var process = Process.Start(processInfo))
+                {
+                    var err = process?.StandardError.ReadToEnd();
+                    if (err != "")
+                        throw new ErrorWhileExecutingScriptException();
+
+                    var result = process?.StandardOutput.ReadToEnd();
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new ErrorWhileExecutingScriptException(e.Message, e);
             }
         }
     }
