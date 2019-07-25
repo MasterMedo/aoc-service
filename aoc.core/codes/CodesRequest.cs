@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Main.Core.AdventOfCode
+namespace aoc.core.codes
 {
-    public class AdventOfCodeRequest
+    public class CodesRequest
     {
         public int Year { get; set; }
         public int Day { get; set; }
-        public string Input { get; set; }
+        public string Language { get; set; }
     }
 }

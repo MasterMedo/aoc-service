@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Main.Authorization;
-using Main.Core.AdventOfCode;
+using aoc.core.codes;
+using aoc.core.helper;
+using aoc.core.solutions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Main
+namespace aoc
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             // add custom services
-            services.AddTransient<IAdventOfCodeService, AdventOfCode.AdventOfCodeService>();
+            services.AddTransient<IHelper, helper.Helper>();
+            services.AddTransient<ICodesService, codes.CodesService>();
+            services.AddTransient<ISolutionsService, solutions.SolutionsService>();
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
@@ -26,14 +29,14 @@ namespace Main
             {
                 c.AddSecurityDefinition("basic", new ApiKeyScheme
                 {
-                    Description = "Basic AuthorizationBean using Username and Password",
+                    Description = "username e.g. medo, password e.g. medo",
                     Type = "basic"
                 });
                 c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
                 {
                     { "basic", Enumerable.Empty<string>() }
                 });
-                c.SwaggerDoc("v1", new Info {Title = "Middleware", Version = "v1"});
+                c.SwaggerDoc("v1", new Info {Title = "Advent Of Code", Version = "v1"});
                 c.EnableAnnotations();
             });
         }
@@ -43,8 +46,8 @@ namespace Main
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.DocumentTitle = "Middleware";
-                c.SwaggerEndpoint("swagger/v1/swagger.json", "Middleware");
+                c.DocumentTitle = "Advent Of Code";
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "Advent Of Code");
                 c.RoutePrefix = string.Empty;
             });
             app.UseMiddleware<Authentication.Authentication>();

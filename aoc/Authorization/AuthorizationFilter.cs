@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace Main.Authorization
+namespace aoc.Authorization
 {
     public class AuthorizationFilter : IAuthorizationFilter
     {

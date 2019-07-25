@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Main.Authentication
+namespace aoc.Authentication
 {
     public class Authentication
     {

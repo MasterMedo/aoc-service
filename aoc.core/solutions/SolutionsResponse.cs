@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Main.Core.AdventOfCode
+namespace aoc.core.solutions
 {
-    public class AdventOfCodeResponse
+    public class SolutionsResponse
     {
         public string Part1 { get; set; }
         public string Part2 { get; set; }

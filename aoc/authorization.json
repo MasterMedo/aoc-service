@@ -1,23 +1,12 @@
 ﻿[
   {
-    "username": "laura",
-    "controller": "Fake",
-    "permittedMethods": [],
-    "assemblyName": "FakeProject",
-    "className": "FakeService" 
+    "username": "medo",
+    "controller": "Solutions",
+    "permittedMethods": []
   },
   {
     "username": "medo",
-    "controller": "Fake",
-    "permittedMethods": [],
-    "assemblyName": "FakeProject",
-    "className": "FakeService" 
-  },
-  {
-    "username": "medo",
-    "controller": "AdventOfCode",
-    "permittedMethods": [],
-    "assemblyName": "AdventOfCode",
-    "className": "AdventOfCodeService" 
+    "controller": "Codes",
+    "permittedMethods": []
   }
 ]
