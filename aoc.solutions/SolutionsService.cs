@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using aoc.core;
 using aoc.core.Exceptions;
 using aoc.core.helper;
 using aoc.core.solutions;
@@ -23,48 +25,48 @@ namespace aoc.solutions
             if (!_helper.IsDayYearValid(request.Day, request.Year))
                 throw new DayOrYearNotValidException();
 
-            var script = _helper.GetScriptPath(request.Year, request.Day, "python");
+            var language = Constants.DefaultLanguage;
+            var script = _helper.BuildScriptPath(request.Year, request.Day, language);
             if(!File.Exists(script))
                 throw new DayNotImplementedException();
 
-            var python2 = _config["python2"];
-            var python3 = _config["python3"];
-            if(!File.Exists(python2) || !File.Exists(python3))
+            var interpreter = _config[language];
+            if(!File.Exists(interpreter))
                 throw new InterpreterNotFoundException();
 
             File.WriteAllText(@"..\input\" + request.Day + ".txt", request.Input);
 
-            var result = RunScript(python2, script);
+            var (err, result) = RunScript(interpreter, script);
 
             var parts = result.Split("\r\n");
-            if (parts.Length != 2)
+            if (parts.Length > 2)
                 throw new UnexpectedResultLengthException(result);
 
             return new SolutionsResponse
             {
-                Part1 = parts[0],
-                Part2 = parts[1]
+                Part1 = parts.Length > 0 ? parts[0] : null,
+                Part2 = parts.Length > 1 ? parts[1] : null,
+                Error = parts.Length > 2 ? "Output: " + string.Join(";", parts.Skip(2)) + (err == null ? "" : "\nError: " + err) : err
             };
         }
 
-        public string RunScript(string interpreter, string script)
+        public (string, string) RunScript(string interpreter, string script)
         {
             try
             {
                 var processInfo = new ProcessStartInfo
                 {
-                    FileName = interpreter, Arguments = script, RedirectStandardOutput = true,
+                    FileName = interpreter,
+                    Arguments = script,
+                    RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
 
                 using (var process = Process.Start(processInfo))
                 {
                     var err = process?.StandardError.ReadToEnd();
-                    if (err != "")
-                        throw new ErrorWhileExecutingScriptException();
-
                     var result = process?.StandardOutput.ReadToEnd();
-                    return result;
+                    return (err, result);
                 }
             }
             catch (Exception e)

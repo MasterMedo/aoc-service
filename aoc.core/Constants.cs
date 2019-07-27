@@ -12,7 +12,7 @@ namespace aoc.core
         public static readonly int StartYear = 2015;
         public static readonly int EndYear = DateTime.Today.Year;
         public static readonly int UtcReleaseHour = 5;
-        public static readonly string DefaultLanguage = "python";
+        public static readonly string DefaultLanguage = "python2";
     }
 }
 

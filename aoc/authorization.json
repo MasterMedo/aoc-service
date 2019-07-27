@@ -1,12 +1,10 @@
 ﻿[
   {
     "username": "medo",
-    "controller": "Solutions",
-    "permittedMethods": []
+    "controller": "Solutions"
   },
   {
     "username": "medo",
-    "controller": "Codes",
-    "permittedMethods": []
+    "controller": "Codes"
   }
 ]

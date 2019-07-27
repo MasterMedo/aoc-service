@@ -1,7 +1,7 @@
 ﻿using System;
 using aoc.Authorization;
-using aoc.core.codes;
 using aoc.core.Exceptions;
+using aoc.core.codes;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 

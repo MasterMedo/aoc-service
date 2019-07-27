@@ -9,6 +9,6 @@ namespace aoc.Authorization
     {
         public string Username { get; set; }
         public string Controller { get; set; }
-        public List<string> PermittedMethods { get; set; }
+        public List<string> Methods { get; set; }
     }
 }

@@ -20,16 +20,15 @@ namespace aoc.codes
             if (!_helper.IsDayYearValid(request.Day, request.Year))
                 throw new DayOrYearNotValidException();
 
-            var script = _helper.GetScriptPath(request.Year, request.Day, request.Language ?? Constants.DefaultLanguage);
+            var language = request.Language ?? Constants.DefaultLanguage;
+            var script = _helper.BuildScriptPath(request.Year, request.Day, language);
 
             if(!File.Exists(script))
                 throw new DayNotImplementedException();
 
             return new CodesResponse
             {
-                Day = request.Day,
-                Year = request.Year,
-                Language = request.Language ?? Constants.DefaultLanguage,
+                Language = language,
                 Content = File.ReadAllText(script)
             };
         }

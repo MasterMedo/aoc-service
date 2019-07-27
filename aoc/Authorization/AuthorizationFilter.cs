@@ -23,7 +23,7 @@ namespace aoc.Authorization
                 var authorizations = JsonConvert.DeserializeObject<List<AuthorizationBean>>(json);
 
                 var auth = authorizations.FirstOrDefault(x => x.Username == username && x.Controller == controller);
-                if (auth != null && (auth.PermittedMethods.Count == 0 || auth.PermittedMethods.Contains(method)))
+                if (auth != null && (auth.Methods == null || auth.Methods.Count == 0 || auth.Methods.Contains(method)))
                     return;
             }
             catch
@@ -31,7 +31,6 @@ namespace aoc.Authorization
                 // logging
             }
 
-            context.HttpContext.Response.Headers["WW-Authenticate"] = "Basic";
             context.Result = new UnauthorizedResult();
         }
     }

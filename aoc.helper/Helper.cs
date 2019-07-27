@@ -23,7 +23,7 @@ namespace aoc.helper
             return (today - target).TotalSeconds > 0;
         }
 
-        public string GetScriptPath(int year, int day, string language)
+        public string BuildScriptPath(int year, int day, string language)
         {
             return _config["AdventOfCodeRoot"] + '\\' + year + @"\day\" + day + GetLanguageExtension(language);
         }
@@ -32,7 +32,11 @@ namespace aoc.helper
         {
             switch (language)
             {
-                case "python":
+                case null:
+                    throw new ArgumentNullException("Programming");
+                case "python2":
+                    return ".py";
+                case "python3":
                     return ".py";
                 default:
                     throw new ProgrammingLanguageNotRecognizedException();
