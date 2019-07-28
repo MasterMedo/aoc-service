@@ -66,7 +66,7 @@ namespace aoc.solutions
                 {
                     var err = process?.StandardError.ReadToEnd();
                     var result = process?.StandardOutput.ReadToEnd();
-                    return (err, result.TrimEnd());
+                    return (err, result);
                 }
             }
             catch (Exception e)
