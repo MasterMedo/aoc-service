@@ -39,10 +39,10 @@ namespace aoc.core.solutions
                  
     public class UnexpectedResultLengthException : SolutionsException
     {
-        public UnexpectedResultLengthException (string message) : base(404, "Interpreter not found!", message, null)
+        public UnexpectedResultLengthException (string message) : base(404, "Unexpected result length!", message, null)
         {
         }
-        public UnexpectedResultLengthException () : base(404, "Interpreter not found!")
+        public UnexpectedResultLengthException () : base(404, "Unexpected result length!")
         {
         }
     }
